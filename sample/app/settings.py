@@ -104,4 +104,6 @@ STATIC_URL = '/static/'
 
 INSTALLED_APPS += (
     'rest_framework',
+    'accounts',
+    'approver',
 )

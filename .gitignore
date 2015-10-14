@@ -11,3 +11,4 @@ sample/static/
 sample/docs/build
 sample/logs/
 sample/upload/
+sample/accounts/migrations
