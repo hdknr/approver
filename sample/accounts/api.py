@@ -2,8 +2,10 @@ from django.http import HttpResponse
 
 from rest_framework import (
     serializers, renderers, decorators, authentication, permissions)
-
 import models
+
+from approver.rests.authentication import BearerTokenAuthentication
+from approver.models import Token
 
 
 class JSONResponse(HttpResponse):
@@ -24,14 +26,24 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 @decorators.api_view(['GET', 'POST'])
-@decorators.authentication_classes((authentication.BasicAuthentication,))
+@decorators.authentication_classes(
+    (BearerTokenAuthentication, authentication.BasicAuthentication,))
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def profile_list(request):
     '''
+    BasicAuthentication
+
     >>> import requests
     >>> requests.post('http://wp.deb:9990/accounts/api/profile/',
                       auth=('admin','password'))
+
+    BearerTokenAuthentication
+
+    >>>  requests.get('http://wp.deb:9990/accounts/api/profile/',
+                      headers={'Authorization': 'Bearer my_token_string'})
     '''
+    assert request.user and isinstance(request.auth, Token)
+
     ser = ProfileSerializer(models.Profile.objects.all(), many=True)
     # rest_framework.serializers.ListSerializer
     return JSONResponse(ser.data)

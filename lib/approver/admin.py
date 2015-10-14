@@ -1,5 +1,23 @@
 from django.contrib import admin
 from django.apps import apps
+from django import forms
+import models
+import utils
+
+
+class TokenAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Token
+        exclude = ('token_digest', )
+
+    def __init__(self, *args, **kwargs):
+        initial = kwargs.get('initial', {})
+        initial['token_value'] = utils.get_random_string()
+        super(TokenAdminForm, self).__init__(*args, **kwargs)
+
+
+class TokenAdmin(admin.ModelAdmin):
+    form = TokenAdminForm
 
 
 def register(app_fullname, admins, ignore_models=[]):
