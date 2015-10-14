@@ -1,7 +1,7 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
-from rest_framework import (serializers, renderers)
+from rest_framework import (
+    serializers, renderers, decorators)
 
 import models
 
@@ -23,7 +23,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         return JSONResponse(self.data)
 
 
-@csrf_exempt
+@decorators.api_view(['GET', 'POST'])
 def profile_list(request):
     ser = ProfileSerializer(models.Profile.objects.all(), many=True)
     # rest_framework.serializers.ListSerializer
