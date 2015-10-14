@@ -1,0 +1,4 @@
+django
+MySQL-python
+enum34
+requests

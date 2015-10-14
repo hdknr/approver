@@ -1,0 +1,13 @@
+.*.swp
+.ropeproject
+*.sqlite3
+*.pyc
+*.egg-info
+*.log
+migrations
+assets
+docs/build
+sample/static/
+sample/docs/build
+sample/logs/
+sample/upload/
