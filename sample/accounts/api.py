@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import permission_required
 
 from rest_framework import (
     serializers, renderers, decorators, authentication, permissions)
@@ -29,6 +30,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 @decorators.authentication_classes(
     (BearerTokenAuthentication, authentication.BasicAuthentication,))
 @decorators.permission_classes((permissions.IsAuthenticated,))
+@permission_required('accounts.change_profile')
 def profile_list(request):
     '''
     BasicAuthentication
